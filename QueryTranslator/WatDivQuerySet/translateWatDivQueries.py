@@ -104,18 +104,18 @@ def main(argv):
     try:
       opts, args = getopt.getopt(argv,"hs:t:",["sdir=","tdir="])
     except getopt.GetoptError:
-      print 'test.py -s <sparqlDir> -t <sqlDir>'
+      print 'translateWatDivQueries.py -s <sparqlDir> -t <sqlDir>'
       sys.exit(2)
     for opt, arg in opts:
       if opt == '-h':
-         print 'test.py -s <sparqlDir> -t <sqlDir>'
+         print 'translateWatDivQueries.py -s <sparqlDir> -t <sqlDir>'
          sys.exit()
       elif opt in ("-s", "--sparqlDir"):
          sparqlDir = arg
       elif opt in ("-t", "--sqlDir"):
          sqlDir = arg
     if (len(sparqlDir) == 0):
-        print 'test.py -s <sparqlDir> -t <sqlDir>'
+        print 'translateWatDivQueries.py -s <sparqlDir> -t <sqlDir>'
         sys.exit()
     if (len(sqlDir) == 0):
         sqlDir = "./";

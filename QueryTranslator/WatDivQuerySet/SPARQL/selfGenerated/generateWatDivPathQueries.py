@@ -112,7 +112,7 @@ def main(argv):
     try:
       opts, args = getopt.getopt(argv,"hi:o:s:",["idir=","odir=","scale="])
     except getopt.GetoptError:
-      print 'generateWatDivBasicQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
+      print 'generateWatDivPathQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
       sys.exit(2)
     for opt, arg in opts:
       if opt == '-h':
@@ -125,12 +125,12 @@ def main(argv):
       elif opt in ("-s", "--scale"):
          scale = arg
     if (len(sourceDir) == 0):
-        print 'generateWatDivBasicQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
+        print 'generateWatDivPathQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
         sys.exit()
     if (len(targetDir) == 0):
         targetDir = "./";
     if (len(scale) == 0):
-        print 'generateWatDivBasicQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
+        print 'generateWatDivPathQueries.py -i <sourceDir> -o <targetDir> -s <WatDivScale>'
         sys.exit()
     print 'Input Dir is "', sourceDir
     print 'Output Dir is "', targetDir
