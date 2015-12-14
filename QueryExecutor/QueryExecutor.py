@@ -21,6 +21,11 @@ dbDir = ""
 # Input file containing list of queries
 queryFile = ""
 
+# write some line to the log file
+def writeToLog(line):
+    with open("./DataBaseCreator.log", "a") as logFile:
+        logFile.write(line+"\n")
+
 # Submits QueryExecutor driver app to the cluster 
 def startQueryExecutor():
     global jarFilePath, driverMemory, sparkMaster    
