@@ -66,7 +66,7 @@ public class SimpleTriple implements SqlTriple{
 		}
 
 		if (predicate.isURI()) {
-			this._tableName = FmtUtils.stringForNode(predicate, this._prefixMapping).replace(":", "__");
+			this._tableName = FmtUtils.stringForNode(predicate, this._prefixMapping).replace(":", "__").replace("<", "_L_").replace(">", "_B_");
 			this.verticalPartitioning = true;
 		} else {
 			vars.put(Tags.PREDICATE_COLUMN_NAME, predicate.getName());

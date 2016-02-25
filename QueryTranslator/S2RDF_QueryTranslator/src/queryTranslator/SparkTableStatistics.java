@@ -54,9 +54,19 @@ public class SparkTableStatistics {
 	 */
 	private static String composeTableName(String[] candidate){
 		if (candidate[0].equals("VP")){
-			return "<"+candidate[1].replace(":", "__")+">";
+			return "<"+candidate[1].replace(":", "__")
+									.replace("<", "_L_")
+									.replace(">", "_B_")+">";
 		} else {
-			return "<"+candidate[1].replace(":", "__")+"><"+candidate[2].replace(":", "__")+">";
+			return "<"
+					+candidate[1].replace(":", "__")
+								 .replace("<", "_L_")
+								 .replace(">", "_B_")
+					+"><"
+					+candidate[2].replace(":", "__")
+								 .replace("<", "_L_")
+								 .replace(">", "_B_")
+					+">";
 		}
 	}
 	/** Get statistic of "best"(smallest) table
@@ -205,7 +215,7 @@ public class SparkTableStatistics {
 			  TStat newStat = new TStat(temp[1], temp[2], temp[3]);
 			  allTriplesNumber += newStat.size;
 			  numberOfStoredTables++;
-			  vpStats.put(temp[0].replace(":", "__"), newStat);
+			  vpStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
 		  }
 		  reader.close();
 		}
@@ -260,9 +270,9 @@ public class SparkTableStatistics {
 			  }
 
 			  // Add ExtVP tables statistics 
-			  if (relType.equals("SO")) soStats.put(temp[0].replace(":", "__"), newStat);
-			  else if (relType.equals("OS")) osStats.put(temp[0].replace(":", "__"), newStat);
-			  else if (relType.equals("SS")) ssStats.put(temp[0].replace(":", "__"), newStat);
+			  if (relType.equals("SO")) soStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
+			  else if (relType.equals("OS")) osStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
+			  else if (relType.equals("SS")) ssStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
 		  }
 		  reader.close();
 		}
