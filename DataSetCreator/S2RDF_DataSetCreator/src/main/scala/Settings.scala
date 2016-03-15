@@ -58,7 +58,7 @@ object Settings {
   def loadSparkContext(): SparkContext = {
     
     val conf = new SparkConf().setAppName("DataSetsCreator")
-                              .set("spark.executor.memory", "14g")
+                              .set("spark.executor.memory", "20g")
                               .set("spark.sql.inMemoryColumnarStorage.compressed", "true")
                               //.set("spark.sql.autoBroadcastJoinThreshold", "-1")
                               .set("spark.sql.parquet.filterPushdown", "true")

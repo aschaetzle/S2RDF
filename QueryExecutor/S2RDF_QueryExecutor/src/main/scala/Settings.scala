@@ -17,7 +17,7 @@ object Settings {
   
   // Settings to change
   val testLoop = 1;
-  val partNumberExtVP = 200
+  val partNumberExtVP = 50
   val partNumberVP = 200
  
   val sparkContext = loadSparkContext();
@@ -54,7 +54,7 @@ object Settings {
                               //.set("spark.storage.memoryFraction", "0.4")
                               //.set("spark.sql.inMemoryColumnarStorage.batchSize", "10000")
                               .set("spark.sql.inMemoryColumnarStorage.batchSize", "20000")
-                              //.set("spark.sql.shuffle.partitions", "100")
+                              .set("spark.sql.shuffle.partitions", "50")
                               //.set("spark.driver.allowMultipleContexts", "true")
                               
     new SparkContext(conf);

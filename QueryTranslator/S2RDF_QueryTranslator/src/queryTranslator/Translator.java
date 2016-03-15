@@ -242,7 +242,7 @@ public class Translator {
         	sqlWriter = new PrintWriter(outputFile+".sql");
         	
         	// Add to the output query tables usage instructions 
-        	sqlWriter.print(sqlScript+"\n"+SparkTableStatistics.generateTablesUsageInstructions());
+        	sqlWriter.print(SparkTableStatistics.generateTablesUsageInstructions(sqlScript));
         	sqlWriter.close();
         } catch (Exception ex) {
             logger.fatal("Cannot open output file!", ex);

@@ -56,27 +56,26 @@ public class SimpleTriple implements SqlTriple{
 		Node subject = _t1.getSubject();
 		Node predicate = _t1.getPredicate();
 		Node object = _t1.getObject();
-		
 
 		if (subject.isURI() || subject.isBlank()) {
 			whereConditions.add(Tags.SUBJECT_COLUMN_NAME + " = '"+ FmtUtils.stringForNode(subject,
-							this._prefixMapping) + "'");
+							this._prefixMapping).replace("http://yago-knowledge.org/resource/", "") + "'");
 		} else {
 			vars.put(Tags.SUBJECT_COLUMN_NAME, subject.getName());
 		}
 
 		if (predicate.isURI()) {
-			this._tableName = FmtUtils.stringForNode(predicate, this._prefixMapping).replace(":", "__").replace("<", "_L_").replace(">", "_B_");
+			this._tableName = FmtUtils.stringForNode(predicate, this._prefixMapping).replace("http://yago-knowledge.org/resource/", "").replace(":", "__");
 			this.verticalPartitioning = true;
 		} else {
 			vars.put(Tags.PREDICATE_COLUMN_NAME, predicate.getName());
 		}
 		if (object.isURI() || object.isLiteral() || object.isBlank()) {
 			String string = FmtUtils.stringForNode(object,
-					this._prefixMapping);
-			if (object.isLiteral()) {
-				string = "" + object.getLiteral().getValue();
-			}
+					this._prefixMapping).replace("http://yago-knowledge.org/resource/", "");
+			//if (object.isLiteral()) {
+			//	string = "" + object.getLiteral().toString();
+			//}
 			
 			whereConditions.add(Tags.OBJECT_COLUMN_NAME + " = '" + string + "'");
 		} else {

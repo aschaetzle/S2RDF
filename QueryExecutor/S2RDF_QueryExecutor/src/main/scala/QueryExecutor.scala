@@ -286,8 +286,8 @@ object QueryExecutor {
     queryNames ++= extractAllVPTestNames(temp)
     
     var results = HashMap[String, String]()
-    var testSet = ""    
-    for (queryN <- queryNames){      
+    var testSet = ""
+    for (queryN <- queryNames) if (queryN.contains("SO")){      
       
       var query = getQueryByName(queryN, _queryList)
       
@@ -299,10 +299,17 @@ object QueryExecutor {
       var actualTestSet = queryN.substring(0, queryN.indexOf("-", queryN.indexOf("-")+1))      
       // = IL5-1
 
-      // HACK for Selectivity Testing-Queries
+      // HACK for Selectivity Testing-Queries      
       if (queryN.indexOf("-") == queryN.indexOf("--"))
         actualTestSet = actualPrefix
       
+      // HACK for yago    
+      if (actualPostfix.contains("yago"))
+      {
+        actualTestSet = queryN.substring(0)
+      }
+      
+      println("pr-"+actualPrefix+"pf-"+actualPostfix+"at"+actualTestSet)
       println("Test "+query.queryName+":");
       
       // Uncache Tables
@@ -319,9 +326,11 @@ object QueryExecutor {
       avoidDoubleTableReferencing(query)
 
       // Print query plane
+      println("HaLLO")
       println(_sqlContext.sql("""""" + query.query + """""")
                           .queryExecution
                           .executedPlan)
+      println("HaLL1")
       // Run Tests
       // Execute a dummy execution, since all first execution is always slower
       // than the following executions

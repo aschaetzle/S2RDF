@@ -121,7 +121,7 @@ object DataSetGenerator {
       var vpTable = _sqlContext.sql("select sub, obj "
                                   + "from triples where pred='"+predicate+"'")          
       
-      val cleanPredicate = Helper.getPartName(predicate)    
+      val cleanPredicate = Helper.getPartName(predicate)  
       vpTable.registerTempTable(cleanPredicate)
       _sqlContext.cacheTable(cleanPredicate)
       _vpTableSizes(predicate) = vpTable.count()

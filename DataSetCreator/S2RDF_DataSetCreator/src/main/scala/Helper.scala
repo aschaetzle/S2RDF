@@ -16,7 +16,7 @@ object Helper {
    * transform table name for storage table in HDFS
    */ 
   def getPartName(v: String): String = {
-    v.replaceAll(":", "__")
+    v.replaceAll(":", "__").replaceAll("<", "_L_").replaceAll(">", "_B_")
   }
   
   /**

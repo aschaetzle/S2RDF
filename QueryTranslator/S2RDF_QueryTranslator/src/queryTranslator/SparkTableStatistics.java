@@ -53,21 +53,16 @@ public class SparkTableStatistics {
 	 * @return table name
 	 */
 	private static String composeTableName(String[] candidate){
+		String ret="";
 		if (candidate[0].equals("VP")){
-			return "<"+candidate[1].replace(":", "__")
-									.replace("<", "_L_")
-									.replace(">", "_B_")+">";
+			ret = ("<"+candidate[1].replace(":", "__")+">").replace("<<", "<").replace(">>", ">");
 		} else {
-			return "<"
+			ret = ("<"
 					+candidate[1].replace(":", "__")
-								 .replace("<", "_L_")
-								 .replace(">", "_B_")
 					+"><"
-					+candidate[2].replace(":", "__")
-								 .replace("<", "_L_")
-								 .replace(">", "_B_")
-					+">";
+					+candidate[2].replace(":", "__")+">").replace("<<", "<").replace(">>", ">");
 		}
+		return ret;
 	}
 	/** Get statistic of "best"(smallest) table
 	 * 
@@ -215,7 +210,7 @@ public class SparkTableStatistics {
 			  TStat newStat = new TStat(temp[1], temp[2], temp[3]);
 			  allTriplesNumber += newStat.size;
 			  numberOfStoredTables++;
-			  vpStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
+			  vpStats.put(temp[0].replace(":", "__").replace("<<", "<").replace(">>", ">"), newStat);
 		  }
 		  reader.close();
 		}
@@ -270,9 +265,9 @@ public class SparkTableStatistics {
 			  }
 
 			  // Add ExtVP tables statistics 
-			  if (relType.equals("SO")) soStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
-			  else if (relType.equals("OS")) osStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
-			  else if (relType.equals("SS")) ssStats.put(temp[0].replace(":", "__").replace("<", "_L_").replace(">", "_B_"), newStat);
+			  if (relType.equals("SO")) soStats.put(temp[0].replace(":", "__").replace("<<", "<").replace(">>", ">"), newStat);
+			  else if (relType.equals("OS")) osStats.put(temp[0].replace(":", "__").replace("<<", "<").replace(">>", ">"), newStat);
+			  else if (relType.equals("SS")) ssStats.put(temp[0].replace(":", "__").replace("<<", "<").replace(">>", ">"), newStat);
 		  }
 		  reader.close();
 		}
@@ -302,7 +297,7 @@ public class SparkTableStatistics {
 			for (int i=0; i < candList.getSqlTableCandidates().size(); i++){
 				String[] candidate = candList.getSqlTableCandidates().get(i);
 				String tName = composeTableName(candidate);
-				
+				System.out.println("TABLE->"+tName);
 				if (candidate[0].equals("VP")){ // VP candidate table
 					long pSize = vpStats.get(tName).size;
 					if (pSize < min){
@@ -315,7 +310,7 @@ public class SparkTableStatistics {
 					
 					if (candidate[0].equals("SO")){
 						if (!soStats.containsKey(tName)) continue;
-						
+						for (String huj:soStats.keySet()) System.out.println("XUJ->"+huj);
 						extVpTableSize = soStats.get(tName).size;
 						vpTableSize = soStats.get(tName).sizeSource;
 						
@@ -410,13 +405,18 @@ public class SparkTableStatistics {
 	 * indicates an empty result list 
 	 * @return Table usage instructions as a String
 	 */
-	public static String generateTablesUsageInstructions(){
+	public static String generateTablesUsageInstructions(String query){
 		String res="++++++Tables Statistic\n"; 
 		for (String placeHolderName:tableCandidatesMap.keySet()){
 			SqlTableCandidatesList candList = tableCandidatesMap.get(placeHolderName);
 			String[] bestCandidate = candList.getSqlTableCandidates().get(candList.bestCandidateID);						
 			// add best candidate information
-			res+=placeHolderName+"\t"+candList.bestCandidateID+"\t"+bestCandidate[0]+ "\t" + bestCandidate[1]+ "/" + bestCandidate[2]+"\n";
+			String newPlaceholder = placeHolderName.replace("<", "_L_").replace(">", "_B_");
+			query = query.replace(placeHolderName, newPlaceholder);
+			res+=newPlaceholder+"\t"+candList.bestCandidateID+"\t"+bestCandidate[0]
+					+ "\t" + bestCandidate[1].replace("<", "_L_").replace(">", "_B_")
+					+ "/" + bestCandidate[2].replace("<", "_L_").replace(">", "_B_")
+					+"\n";
 			
 			// add entire list of all candidates for the corresponding place holder   
 			for (int i=0; i < candList.getSqlTableCandidates().size(); i++){				
@@ -436,7 +436,7 @@ public class SparkTableStatistics {
 			}
 			res+="------\n";
 		}
-		return res;
+		return query+"\n"+res;
 	}
 	
 }

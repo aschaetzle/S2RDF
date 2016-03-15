@@ -32,9 +32,14 @@ public class SqlTableCandidatesList {
 	
 	public SqlTableCandidatesList(String tableName){		
 		
+		// (simon) Terible,terible hack to solve problem with <entity> like entities
+		// base prefix has to be removed
+		tableName = tableName.replace("http__//yago-knowledge.org/resource/", "");
+		
 		Tags.PLACE_HOLDER_ID++;
 		placeHolderId = ""+Tags.PLACE_HOLDER_ID;
-		this.placeHolderName = tableName+"$$"+placeHolderId+"$$";
+		//this.placeHolderName = tableName.replace("<", "_L_").replace(">", "_B_")+"$$"+placeHolderId+"$$";
+		this.placeHolderName = tableName +"$$"+placeHolderId+"$$";
 		// Add VP table as a default candidate for usage in SQL query
 		sqlTableCandidates.add(new String[]{"VP", tableName, ""});
 	}

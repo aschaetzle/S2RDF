@@ -21,7 +21,7 @@ dbDir = ""
 # Input RDF dataset filename (file has to be inside of the Database Directory)
 inpuRDFFile = ""
 # Default Upper Bound Scale
-scaleUB = 1.0
+scaleUB = 0.25
 
 # remove some file
 def removeFile(filename):
@@ -38,7 +38,7 @@ def writeToLog(line):
 # Delay ins seconds for waiting until cluster is recovered after execution
 # Probably gonna be no more necessary after spark update (actual Spark version 1.3)
 def delay():
-    delTime = 180
+    delTime = 360
     writeToLog("Cluster recovering (time_out = " + str(delTime) + "sec)... ")
     time.sleep(delTime)
     writeToLog("Done!")
