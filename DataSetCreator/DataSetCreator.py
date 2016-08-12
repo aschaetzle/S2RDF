@@ -56,7 +56,7 @@ def submitSparkCommand(relationType):
     + " --class runDriver --master "
     + sparkMaster + " "
     + jarFilePath + " "
-    + dbDir + " " + inpuRDFFile + " " + relationType + " " + "{:.1f}".format(scaleUB)
+    + dbDir + " " + inpuRDFFile + " " + relationType + " " + "{:.2f}".format(scaleUB)
     + " > ./DataBaseCreator.err")
     
     writeToLog("Execute " + command + " ...")
